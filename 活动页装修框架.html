@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>活动页装修框架和规范建议</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #45b08a;
+      padding: 46px 0 64px;
+      color:#333;
+    }
+
+    /* 纯 CSS Tab */
+    input[type="radio"]{ display:none; }
+    .top{
+      width: 1060px;
+      margin: 0 auto 22px;
+      text-align:center;
+      color:#fff;
+    }
+    .top h1{
+      font-size: 44px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .top .sub{
+      display: none;
+    }
+    .tabbar{
+      display: inline-flex;
+      width: 420px;
+      border-radius: 6px;
+      overflow:hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.16);
+    }
+    .tabbar label{
+      flex:1;
+      padding: 12px 0;
+      cursor:pointer;
+      user-select:none;
+      background: rgba(255,255,255,.18);
+      color:#fff;
+      font-weight:700;
+    }
+    #tab-m:checked ~ .top .tabbar label[for="tab-m"],
+    #tab-pc:checked ~ .top .tabbar label[for="tab-pc"]{
+      background:#1aa77f;
+    }
+
+    .board{
+      width: 1060px;
+      margin: 0 auto;
+      background:#fff;
+      padding: 44px 48px 56px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+    }
+    .panel{ display:none; }
+    #tab-m:checked ~ .board #panel-m{ display:block; }
+    #tab-pc:checked ~ .board #panel-pc{ display:block; }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 380px 1fr;
+      column-gap: 46px;
+      align-items:start;
+    }
+
+    /* 左侧示意 */
+    .mock{
+      border: 1px solid #cfe9df;
+      border-radius: 6px;
+      background:#fbfffd;
+      padding: 18px 16px 16px;
+    }
+    .mock-title{
+      text-align:center;
+      color:#1aa77f;
+      font-size:14px;
+      font-weight:800;
+      margin-bottom: 12px;
+    }
+    .mock-phone{
+      border: 1px solid #e6e6e6;
+      border-radius: 3px;
+      background:#fff;
+      overflow:hidden;
+    }
+    .mock-ruler{
+      height: 30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#a6a6a6;
+      font-size: 11px;
+      border-bottom: 1px solid #ededed;
+      background:#fff;
+    }
+    .mock-block{
+      border-top: 1px solid #ededed;
+      height: 120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#1aa77f;
+      font-weight:800;
+      font-size: 12px;
+      background:#fff;
+    }
+    .mock-strip{
+      height: 64px;
+      background:#1aa77f;
+      color:#fff;
+      font-weight:800;
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .mock-grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px 12px 14px;
+      background:#fff;
+      border-top: 1px solid #ededed;
+    }
+    .mock-grid2 .cell{
+      height: 90px;
+      border: 1px solid #ededed;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#1aa77f;
+      font-weight:800;
+      font-size: 12px;
+      background:#fff;
+    }
+    .mock-footer{
+      height: 44px;
+      background:#1aa77f;
+      color:#fff;
+      font-weight:800;
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* 右侧文字 */
+    .spec h2{
+      color:#1aa77f;
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .spec .spec-sub{
+      display: none;
+    }
+    .item{
+      padding: 16px 0;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .item-head{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .badge{
+      min-width: 34px;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 6px;
+      background:#1aa77f;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      font-size: 13px;
+    }
+    .name{
+      color:#1aa77f;
+      font-size: 18px;
+      font-weight: 900;
+    }
+    .text{
+      color:#777;
+      font-size: 12px;
+      line-height: 1.85;
+      padding-left: 44px;
+    }
+    .text p{ margin: 2px 0; }
+    .note{
+      color:#999;
+      font-size: 12px;
+      text-align:center;
+      margin: 18px 0 6px;
+      letter-spacing: 1px;
+    }
+    .note:before,
+    .note:after{
+      content:"";
+      display:inline-block;
+      width: 120px;
+      border-top: 1px dashed #cfe9df;
+      vertical-align: middle;
+      margin: 0 12px;
+    }
+  </style>
+</head>
+<body>
+
+<input type="radio" id="tab-m" name="tab" checked />
+<input type="radio" id="tab-pc" name="tab" />
+
+<div class="top">
+  <h1>活动页装修框架和规范建议</h1>
+  <div class="tabbar">
+    <label for="tab-m">M端</label>
+    <label for="tab-pc">PC端</label>
+  </div>
+</div>
+
+<div class="board">
+  <!-- M -->
+  <section class="panel" id="panel-m">
+    <div class="layout">
+      <div class="mock">
+        <div class="mock-title">M端活动页页面结构示意</div>
+        <div class="mock-phone">
+          <div class="mock-ruler">1125px</div>
+          <div class="mock-block">01. 头图模块</div>
+          <div class="mock-strip">02. 营销信息模块（如：优惠券/签到...）</div>
+          <div class="mock-block">03. 主推/热销商品</div>
+          <div class="mock-grid2">
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+          <div class="mock-block">04. 分类楼层</div>
+          <div class="mock-grid2">
+            <div class="cell">自定义商品</div>
+            <div class="cell"></div>
+          </div>
+          <div class="mock-block">05. 品牌介绍</div>
+          <div class="mock-footer">06. 底部区（跳转其他页面/返回顶部/返回活动首页）</div>
+        </div>
+      </div>
+
+      <div class="spec">
+        <h2>M端活动页装修框架和规范建议</h2>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">01</span>
+            <div class="name">头图模块</div>
+          </div>
+          <div class="text">
+            <p>第一屏的头图是重点设计区域，文案利益点、促销内容基本放在此区域，同时要突出产品，营造活动氛围。</p>
+            <p>① 图片尺寸</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1500px；</p>
+            <p>通栏图文：宽度1125px，高度≤1500px（无边距），宽度1065px，高度≤1500px（有边距）；</p>
+            <p>② 图片格式：JPG、PNG、GIF；</p>
+            <p>③ 图片大小：≤500k；</p>
+            <p>④ 展示内容：促销内容、产品、氛围。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">02</span>
+            <div class="name">营销信息模块</div>
+          </div>
+          <div class="text">
+            <p>营销模块主要包含：优惠券模块、店铺促销信息、预售、营销视频等。</p>
+            <p>① 可通过添加图片热区或者通栏图文进行自定义设计；也可以调用系统营销模块，包含：优惠券、大转盘、签到等营销功能模块。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">03</span>
+            <div class="name">主推/热销商品区域</div>
+          </div>
+          <div class="text">
+            <p>此区域主要放置店铺热销或者商家主推的产品，产品数量不易过多，建议不超过8款产品。</p>
+            <p>① 可用 “自定义商品” 模块编辑</p>
+            <p>宽度系统定义不可修改，</p>
+            <p>高度150px~1245px，且是3px的倍数；</p>
+            <p>图片格式：JPG、PNG、GIF；</p>
+            <p>图片大小：≤300k；</p>
+            <p>② 主推区域产品图片保持大而清晰，文字简洁，突出核心卖点；</p>
+            <p>③ 排版布局简洁，避免文字结构（比如第一个模块左图右文，第二个模块右图左文），使内容更加易读。</p>
+            <p>注：为了避免前后台价格不一致引起投诉，建议调用后台sku价格。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">04</span>
+            <div class="name">分类楼层+自定义商品</div>
+          </div>
+          <div class="text">
+            <p>根据店铺的产品分类，进行楼层罗列。</p>
+            <p>① 图片分类楼层海报可使用图片热区或者图文通栏进行设置</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1500px；</p>
+            <p>通栏图文：宽度1125px，高度≤1500px（无边距），宽度1065px，高度≤1500px（有边距）；</p>
+            <p>② 自定义商品可使用 “自定义商品” 模块进行编辑</p>
+            <p>宽度系统定义不可修改，</p>
+            <p>高度150px~1245px，且是3px的倍数；</p>
+            <p>③ 图片格式：JPG、PNG、GIF；</p>
+            <p>④ 图片大小：≤300k；</p>
+            <p>注：建议一排1-2个产品，价格调用系统价格，和后台价格保持一致，避免后台价格调整后前台价格不能及时更新，引起消费者投诉；</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">05</span>
+            <div class="name">品牌介绍</div>
+          </div>
+          <div class="text">
+            <p>可添加简短的品牌介绍，以及相关品牌店铺跳转链接，强化品牌形象，打造流量闭环。</p>
+            <p>① 图片尺寸</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1500px；</p>
+            <p>通栏图文：宽度1125px，高度≤1500px（无边距），宽度1065px，高度≤1500px（有边距）；</p>
+            <p>② 图片格式：JPG、PNG；</p>
+            <p>③ 图片大小：≤300k。</p>
+          </div>
+        </div>
+
+        <div class="item" style="border-bottom:none;">
+          <div class="item-head">
+            <span class="badge">06</span>
+            <div class="name">底部区</div>
+          </div>
+          <div class="text">
+            <p>底部区域的作用：建立流量闭环。</p>
+            <p>① 底部可做一个收尾设计，例如：跳转至其他页面，或者返回店铺首页等，建立流量闭环。</p>
+            <p>② 图片尺寸</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1500px；</p>
+            <p>通栏图文：宽度1125px，高度≤1500px（无边距），宽度1065px，高度≤1500px（有边距）；</p>
+            <p>③ 图片格式：JPG、PNG；</p>
+            <p>④ 图片大小：≤300k。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PC -->
+  <section class="panel" id="panel-pc">
+    <div class="layout">
+      <div class="mock">
+        <div class="mock-title">PC端活动页页面结构示意</div>
+        <div class="mock-phone">
+          <div class="mock-ruler">1920px</div>
+          <div class="mock-block">01. 头图模块</div>
+          <div class="mock-ruler">1125px</div>
+          <div class="mock-strip">02. 营销信息模块（如：优惠券/签到...）</div>
+          <div class="mock-block">03. 主推/热销商品</div>
+          <div class="mock-grid2">
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+          <div class="mock-block">04. 分类楼层</div>
+          <div class="mock-grid2">
+            <div class="cell">自定义商品</div>
+            <div class="cell"></div>
+          </div>
+          <div class="mock-block">05. 品牌介绍</div>
+          <div class="mock-footer">06. 底部区（跳转其他页面/返回顶部/返回活动首页）</div>
+        </div>
+      </div>
+
+      <div class="spec">
+        <h2>PC端活动页装修框架和规范建议</h2>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">01</span>
+            <div class="name">头图模块</div>
+          </div>
+          <div class="text">
+            <p>第一屏的头图是重点设计区域，文案利益点、促销内容基本放在此区域，同时要突出产品，营造活动氛围。</p>
+            <p>① 图片尺寸</p>
+            <p>图片热区：宽度1920px，高度≥60px，建议高度≤1000px；</p>
+            <p>② 图片格式：JPG、PNG、GIF；</p>
+            <p>③ 图片大小：≤500k；</p>
+            <p>④ 展示内容：促销内容、产品、氛围。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">02</span>
+            <div class="name">营销信息模块</div>
+          </div>
+          <div class="text">
+            <p>营销模块主要包含：优惠券模块、店铺促销信息、预售、营销视频等。</p>
+            <p>① 可通过添加图片热区或者通栏图文进行自定义设计；也可以调用系统营销模块，包含：优惠券、大转盘、签到等营销功能模块。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">03</span>
+            <div class="name">主推/热销商品区域</div>
+          </div>
+          <div class="text">
+            <p>此区域主要放置店铺热销或者商家主推的产品，产品数量不易过多，建议不超过8款产品。</p>
+            <p>① 可用 "自定义商品" 模块编辑</p>
+            <p>宽度系统定义不可修改，</p>
+            <p>一行可显示1~5款商品。</p>
+            <p>② 主推区域产品图片保持大而清晰，文字简洁，突出核心卖点；</p>
+            <p>③ 排版布局简洁，避免z字结构（比如第一个模块左图右文，第二个模块右图左文），使内容更加易读。</p>
+            <p>注：为了避免前后台价格不一致引起投诉，建议调用后台sku价格。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">04</span>
+            <div class="name">分类楼层+自定义商品</div>
+          </div>
+          <div class="text">
+            <p>根据店铺的产品分类，进行楼层罗列。</p>
+            <p>① 图片分楼层海报可使用图片热区或者图文通栏进行设置</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1000px；</p>
+            <p>② 自定义商品可使用 "自定义商品" 模块进行编辑</p>
+            <p>宽度系统定义不可修改，</p>
+            <p>一行可显示1~5款商品。</p>
+            <p>③ 图片格式：JPG、PNG、GIF；</p>
+            <p>④ 图片大小：≤500k；</p>
+            <p>注：建议一排1-2个产品，价格调用系统价格，和后台价格保持一致，避免后台价格调整后前台价格不能及时更新，引起消费者投诉；</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <span class="badge">05</span>
+            <div class="name">品牌介绍</div>
+          </div>
+          <div class="text">
+            <p>可添加简短的品牌介绍，以及相关品牌店铺跳转链接，强化品牌形象，打造流量闭环。</p>
+            <p>① 图片尺寸</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1000px；</p>
+            <p>② 图片格式：JPG、PNG；</p>
+            <p>③ 图片大小：≤500k。</p>
+          </div>
+        </div>
+
+        <div class="item" style="border-bottom:none;">
+          <div class="item-head">
+            <span class="badge">06</span>
+            <div class="name">底部区</div>
+          </div>
+          <div class="text">
+            <p>底部区域的作用：建立流量闭环。</p>
+            <p>① 底部可做一个收尾设计，例如：跳转至其他页面，或者返回店铺首页等，建立流量闭环。</p>
+            <p>② 图片尺寸</p>
+            <p>图片热区：宽度1125px，高度≥60px，建议高度≤1000px；</p>
+            <p>③ 图片格式：JPG、PNG；</p>
+            <p>④ 图片大小：≤500k。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
+
+

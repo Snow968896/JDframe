@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>详情页设计框架和布局建议</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #7446b6;
+      color: #333;
+      padding: 46px 0 70px;
+    }
+
+    .top{
+      width: 980px;
+      margin: 0 auto 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .top h1{
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .top .sub{ display: none; }
+
+    .board{
+      width: 980px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 34px 40px 44px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+    }
+
+    /* 顶部流程 */
+    .flow{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      align-items: center;
+      margin: 4px auto 24px;
+    }
+    .flow-item{
+      background: #6c3aa9;
+      color: #fff;
+      border-radius: 4px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      position: relative;
+      box-shadow: 0 6px 14px rgba(0,0,0,.12);
+    }
+    .flow-item::before{
+      content: "•";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-52%);
+      opacity: .5;
+      font-size: 18px;
+    }
+    .flow-item:not(:last-child)::after{
+      content: "→";
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-52%);
+      color: rgba(255,255,255,.9);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    /* 主体列表 */
+    .grid{
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      column-gap: 18px;
+      row-gap: 12px;
+      align-items: stretch;
+    }
+    .left{
+      border-radius: 4px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:#fff;
+      font-weight: 800;
+      font-size: 16px;
+      height: 64px;
+    }
+    .left.l1{ background:#6c3aa9; }
+    .left.l2{ background:#8a4ee0; }
+    .left.l3{ background:#8a4ee0; }
+    .left.l4{ background:#c39cff; }
+    .left.l5{ background:#c39cff; }
+    .left.l6{ background:#c39cff; }
+    .left.l7{ background:#c39cff; }
+    .left.l8{ background:#c39cff; }
+    .left.l9{ background:#c39cff; }
+    .left.l10{ background:#8a4ee0; }
+    .left.l11{ background:#8a4ee0; }
+    .left.l12{ background:#8a4ee0; }
+
+    .right{
+      background: #f2f2f2;
+      border-radius: 4px;
+      padding: 16px 18px;
+      display:flex;
+      flex-direction: column;
+      justify-content:center;
+      min-height: 64px;
+    }
+    .right h3{
+      color:#7f4ac7;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .right p{
+      color:#777;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top">
+  <h1>详情页设计框架和布局建议</h1>
+</div>
+
+<div class="board">
+  <div class="flow">
+    <div class="flow-item">吸引注意<br/>引发兴趣</div>
+    <div class="flow-item">激发需求<br/>唤起欲望</div>
+    <div class="flow-item">加深记忆<br/>赢得信任</div>
+    <div class="flow-item">打消疑虑<br/>决定购买</div>
+  </div>
+
+  <div class="grid">
+    <div class="left l1">焦点BANNER图</div>
+    <div class="right">
+      <h3>焦点BANNER图</h3>
+      <p>焦点图banner是消费者浏览页面的第一印象，背景应采用以氛围烘托产品的形象或突出产品主卖点的意境图，第一时间吸引买家的注意力，引起消费者的兴趣。</p>
+    </div>
+
+    <div class="left l2">消费者的痛点/面临的问题</div>
+    <div class="right">
+      <h3>痛点图</h3>
+      <p>描述消费者的痛点，如展示消费者在生活中遇到的各种问题，唤起消费者的共鸣。</p>
+    </div>
+
+    <div class="left l3">产品的核心卖点/特性</div>
+    <div class="right">
+      <h3>核心卖点图</h3>
+      <p>介绍产品的核心卖点和特性，总结出产品最具价值的特点和卖点，解决消费者的痛点和问题。</p>
+    </div>
+
+    <div class="left l4">产品规格参数</div>
+    <div class="right">
+      <h3>规格参数介绍</h3>
+      <p>清晰的介绍产品的规格参数。</p>
+    </div>
+
+    <div class="left l5">产品卖点详细介绍</div>
+    <div class="right">
+      <h3>产品卖点详细介绍</h3>
+      <p>详情展示产品的卖点和特色。</p>
+    </div>
+
+    <div class="left l6">产品全方位展示</div>
+    <div class="right">
+      <h3>产品全方位展示图</h3>
+      <p>多角度展示产品外观、造型、尺寸等属性信息。</p>
+    </div>
+
+    <div class="left l7">产品细节展示</div>
+    <div class="right">
+      <h3>产品细节图</h3>
+      <p>展示产品细节图，建议局部放大产品细节展示产品的材质、做工等属性信息。</p>
+    </div>
+
+    <div class="left l8">产品模特展示/使用场景图</div>
+    <div class="right">
+      <h3>模特展示图/使用场景图</h3>
+      <p>服饰箱包品类建议展示模特图，3C类等功能性产品建议展示产品使用场景图，为消费者营造使用后的感觉。</p>
+    </div>
+
+    <div class="left l9">购买理由</div>
+    <div class="right">
+      <h3>购买理由</h3>
+      <p>通过对产品全面的展示，最后总结出商品不得不购买的理由。</p>
+    </div>
+
+    <div class="left l10">产品资质/认证</div>
+    <div class="right">
+      <h3>产品资质/认证</h3>
+      <p>展示产品资质说明，如证书认证，检验单等，增加消费者对产品品质的信任。</p>
+    </div>
+
+    <div class="left l11">品牌故事</div>
+    <div class="right">
+      <h3>品牌故事</h3>
+      <p>介绍产品的品牌故事，展示品牌的实力，加强对消费者品牌的信任和认可。</p>
+    </div>
+
+    <div class="left l12">服务说明/售后物流</div>
+    <div class="right">
+      <h3>服务说明</h3>
+      <p>服务说明、售后物流信息介绍，打消消费者购买疑虑。</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+

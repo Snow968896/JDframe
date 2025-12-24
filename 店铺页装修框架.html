@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>店铺页装修框架和规范建议</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #d56363;
+      color: #333;
+      padding: 44px 0 60px;
+    }
+
+    /* Tab（纯 CSS） */
+    input[type="radio"] { display: none; }
+    .tabs {
+      width: 1040px;
+      margin: 0 auto;
+      text-align: center;
+      color: #fff;
+    }
+    .tabs h1 {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .tabs .sub { display: none; }
+    .tab-bar {
+      width: 420px;
+      margin: 0 auto 22px;
+      display: inline-flex;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    }
+    .tab-bar label {
+      flex: 1;
+      padding: 12px 0;
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    #tab-m:checked ~ .tabs .tab-bar label[for="tab-m"],
+    #tab-pc:checked ~ .tabs .tab-bar label[for="tab-pc"]{
+      background: #e66666;
+      color: #fff;
+    }
+
+    .board {
+      width: 1040px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 42px 46px 54px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+    }
+
+    .panel { display: none; }
+    #tab-m:checked ~ .board #panel-m { display: block; }
+    #tab-pc:checked ~ .board #panel-pc { display: block; }
+
+    .content {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      column-gap: 44px;
+      align-items: start;
+    }
+
+    /* 左侧示意通用 */
+    .mock-title {
+      text-align: center;
+      color: #d56363;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .mock-wrap{
+      border: 1px solid #f0b2b2;
+      border-radius: 6px;
+      background: #fffaf9;
+      padding: 18px 16px 16px;
+    }
+
+    /* M 端手机示意（尽量贴图） */
+    .m-phone {
+      width: 100%;
+      border: 1px solid #f0b2b2;
+      border-radius: 4px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .m-top {
+      background: #c85c5c;
+      padding: 10px 10px 8px;
+      color: #fff;
+      font-size: 12px;
+      position: relative;
+    }
+    .m-top .m-top-row1{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .m-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      background: #ffd9d9;
+      border: 1px solid rgba(255,255,255,.55);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 10px;
+      color:#c85c5c;
+      font-weight:700;
+      flex: 0 0 auto;
+    }
+    .m-top small{
+      display:block;
+      opacity:.95;
+      font-size: 10px;
+      margin-top: 1px;
+    }
+    .m-top .m-idx{
+      text-align:center;
+      font-weight:700;
+      font-size: 12px;
+      margin: 6px 0 0;
+      opacity: .95;
+    }
+    .m-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0;
+      background: #b95353;
+      color: #fff;
+      font-size: 11px;
+      border-top: 1px solid rgba(255,255,255,.25);
+    }
+    .m-nav div{
+      padding: 8px 0;
+      text-align:center;
+      border-right: 1px solid rgba(255,255,255,.18);
+      opacity:.95;
+    }
+    .m-nav div:last-child{ border-right:none; }
+
+    .m-coupon {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid #f0b2b2;
+      border-bottom: 1px solid #f0b2b2;
+      background: #fff;
+    }
+    .m-coupon div{
+      height: 54px;
+      border-right: 1px solid #f0b2b2;
+      background: #fff;
+    }
+    .m-coupon div:last-child{ border-right:none; }
+    .m-coupon .m-coupon-mid{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#d56363;
+      font-size: 12px;
+      font-weight:700;
+    }
+    .m-main {
+      height: 260px;
+      background: #fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#d56363;
+      font-weight:700;
+      font-size: 12px;
+      border-bottom: 1px solid #f0b2b2;
+    }
+    .m-size {
+      padding: 10px 0 8px;
+      text-align:center;
+      color:#999;
+      font-size: 11px;
+      background: #fff;
+    }
+    .m-divider-dots{
+      text-align:center;
+      color:#bbb;
+      letter-spacing: 6px;
+      padding: 10px 0 6px;
+    }
+    .m-row-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 10px 10px 12px;
+      background:#fff;
+    }
+    .m-row-split .box{
+      height: 94px;
+      border: 1px solid #f0b2b2;
+      background: #fff;
+      position: relative;
+    }
+    .m-row-split .box span{
+      position:absolute;
+      left:0; right:0;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align:center;
+      color:#d56363;
+      font-weight:700;
+      font-size: 12px;
+    }
+    .m-long-box{
+      margin: 10px 10px 12px;
+      height: 120px;
+      border: 1px solid #f0b2b2;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#d56363;
+      font-weight:700;
+      font-size:12px;
+    }
+    .m-bottom-nav{
+      background: #c85c5c;
+      color:#fff;
+      font-size: 11px;
+      padding: 10px 8px;
+      display:flex;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .m-bottom-nav span{
+      flex:1;
+      text-align:center;
+      opacity:.95;
+      border-right: 1px solid rgba(255,255,255,.22);
+    }
+    .m-bottom-nav span:last-child{ border-right:none; }
+
+    /* PC 端左侧示意（尽量贴图的条块结构） */
+    .pc-mock {
+      border: 1px solid #f0b2b2;
+      background:#fff;
+      border-radius: 4px;
+      overflow:hidden;
+    }
+    .pc-topbar {
+      height: 36px;
+      background:#f2f2f2;
+      border-bottom: 1px solid #e7e7e7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#d56363;
+      font-weight:700;
+      font-size: 12px;
+    }
+    .pc-navline{
+      display:flex;
+      height: 28px;
+      background:#d56363;
+      color:#fff;
+      font-size: 11px;
+    }
+    .pc-navline div{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-right: 1px solid rgba(255,255,255,.22);
+    }
+    .pc-navline div:last-child{ border-right:none; }
+    .pc-hero{
+      height: 120px;
+      background:#e9e9e9;
+      border-bottom: 1px solid #e7e7e7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#d56363;
+      font-weight:700;
+      font-size: 12px;
+    }
+    .pc-strip{
+      height: 46px;
+      background:#d56363;
+      border-bottom: 1px solid #e7e7e7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size: 12px;
+    }
+    .pc-body{
+      padding: 14px 14px 18px;
+      background:#fff;
+      position: relative;
+    }
+    .pc-size{
+      position:absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 10px;
+      color:#999;
+      font-size: 11px;
+    }
+    .pc-block{
+      height: 86px;
+      border: 1px solid #efefef;
+      background:#fafafa;
+      margin-top: 24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#d56363;
+      font-size: 12px;
+      font-weight:700;
+    }
+    .pc-grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .pc-grid2 .pc-block{ margin-top:0; height: 92px; }
+    .pc-footer{
+      height: 44px;
+      background:#d56363;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size: 12px;
+    }
+
+    /* 右侧规范样式 */
+    .spec-title {
+      color:#d56363;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .spec-item{ padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
+    .spec-head{ display:flex; align-items:center; gap: 10px; margin-bottom: 10px; }
+    .badge{
+      min-width: 34px;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 6px;
+      background:#d56363;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size: 13px;
+    }
+    .spec-name{ color:#d56363; font-size: 18px; font-weight: 800; }
+    .spec-text{ color:#777; font-size: 12px; line-height: 1.85; padding-left: 44px; }
+    .spec-text p{ margin: 2px 0; }
+    .spec-note{
+      color:#999;
+      font-size: 12px;
+      text-align:center;
+      margin: 18px 0 6px;
+      letter-spacing: 1px;
+    }
+    .spec-note:before,
+    .spec-note:after{
+      content:"";
+      display:inline-block;
+      width: 120px;
+      border-top: 1px dashed #e4c0c0;
+      vertical-align: middle;
+      margin: 0 12px;
+    }
+  </style>
+</head>
+<body>
+
+<input type="radio" id="tab-m" name="tab" checked />
+<input type="radio" id="tab-pc" name="tab" />
+
+<div class="tabs">
+  <h1>店铺页装修框架和规范建议</h1>
+  <div class="tab-bar">
+    <label for="tab-m">M端</label>
+    <label for="tab-pc">PC端</label>
+  </div>
+</div>
+
+<div class="board">
+  <!-- M 端 -->
+  <section class="panel" id="panel-m">
+    <div class="content">
+      <div class="mock-wrap">
+        <div class="mock-title">M端店铺页页面结构示意</div>
+        <div class="m-phone">
+          <div class="m-top">
+            <div class="m-top-row1">
+              <div class="m-logo">LOGO</div>
+              <div>
+                <div style="font-weight:800;">店铺相关信息</div>
+                <small></small>
+              </div>
+            </div>
+            <div class="m-idx">01. 头部品牌模块</div>
+          </div>
+          <div class="m-nav">
+            <div>首页</div>
+            <div>全部</div>
+            <div>上新</div>
+            <div>动态</div>
+          </div>
+          <div class="m-idx" style="background:#c85c5c;color:#fff;padding:8px 0;font-size:12px;font-weight:800;">
+            02. 导航模块
+          </div>
+          <div class="m-coupon">
+            <div></div>
+            <div class="m-coupon-mid">03. 优惠券模块</div>
+            <div></div>
+          </div>
+          <div class="m-main">04. 轮播模块</div>
+          <div class="m-size">640px~1125px</div>
+          <div class="m-divider-dots">•••</div>
+          <div class="m-row-split">
+            <div class="box"><span>05. 营销信息模块（如：优惠券）</span></div>
+            <div class="box"></div>
+          </div>
+          <div class="m-long-box">06. 商品分类信息</div>
+          <div class="m-long-box">07. 主推/热销商品</div>
+          <div class="m-long-box">08. 分类楼层</div>
+          <div class="m-row-split">
+            <div class="box"><span>自定义商品</span></div>
+            <div class="box"></div>
+          </div>
+          <div class="m-long-box">09. 品牌介绍</div>
+          <div class="m-bottom-nav">
+            <span>店铺详情</span>
+            <span>店内分类</span>
+            <span>店铺公告</span>
+            <span>联系客服</span>
+          </div>
+          <div class="m-idx" style="background:#c85c5c;color:#fff;padding:10px 0;font-size:12px;font-weight:800;">
+            10. 尾部模块
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="spec-title">M端店铺页装修框架和规范建议</div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">01</span>
+            <div class="spec-name">头部品牌模块</div>
+          </div>
+          <div class="spec-text">
+            <p>头部品牌模块需要传达店铺特色和品牌形象。</p>
+            <p>① 店招尺寸：750*500px；</p>
+            <p>② logo尺寸：300*300px；</p>
+            <p>③ 图片格式：jpg、png。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">02</span>
+            <div class="spec-name">导航模块</div>
+          </div>
+          <div class="spec-text">
+            <p>① APP段导航模块为系统默认模块，无需设置。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">03</span>
+            <div class="spec-name">优惠券模块</div>
+          </div>
+          <div class="spec-text">
+            <p>① 此模块为系统自动展示模块，不需要单独设置；</p>
+            <p>② 自营APP端店铺不显示此模块，仅POP店铺显示；</p>
+            <p>③ 根据店铺后台设置的优惠信息展示优惠券的内容及数量。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">04</span>
+            <div class="spec-name">轮播模块</div>
+          </div>
+          <div class="spec-text">
+            <p>① 图片尺寸：640~1125*210~1440px；</p>
+            <p>② 图片格式：jpg、png；</p>
+            <p>③ 图片大小：≤300k；</p>
+            <p>④ 展示数量：最多8张，建议3~5张。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">05</span>
+            <div class="spec-name">营销信息模块（可使用图片区）</div>
+          </div>
+          <div class="spec-text">
+            <p>营销信息模块主要包含：优惠券模块、店铺促销信息、预售、营销视频等。</p>
+            <p>① 图片尺寸：宽度640px~1125px，高度210px~1440px；</p>
+            <p>② 图片格式：jpg、png；</p>
+            <p>③ 图片大小：≤300k。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">06</span>
+            <div class="spec-name">商品分类信息（可使用图片区）</div>
+          </div>
+          <div class="spec-text">
+            <p>如果店铺售卖商品类目比较多，用来对商品分类和搜索的需求比较高，除了店铺头部的导航，还可以在店铺中间展示分类。</p>
+            <p>① 图片尺寸：宽度640px~1125px，高度210px~1440px；</p>
+            <p>② 图片格式：jpg、png；</p>
+            <p>③ 图片大小：≤300k。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">07</span>
+            <div class="spec-name">主推/热销商品区域</div>
+          </div>
+          <div class="spec-text">
+            <p>此区域主要在商品类目清晰的前提下，展示店铺主推的产品，产品数量不宜过多，建议不超过8款产品。</p>
+            <p>① 主推区域产品图片尺寸清晰，文字简洁，突出核心卖点；</p>
+            <p>② 主推区域的图文信息建议控制在6行以内，为了避免商品价格与后台价格不一致引起投诉，建议使用系统后台的价格展示。</p>
+            <p>注：目前平台不支持自定义价格展现，为了避免后台价格不一致引起投诉，建议使用系统后台价格展现商品sku。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">08</span>
+            <div class="spec-name">分类楼层</div>
+          </div>
+          <div class="spec-text">
+            <p>根据店铺的产品分类，进行楼层罗列。</p>
+            <p>① 实现产品分类信息，产品列表建议一排2个；</p>
+            <p>② 可调用系统楼层，也可以自定义设计；</p>
+            <p>注：建议自定义设计时价格调用系统价格，和后台价格保持一致，避免后台价格调整后前台价格不及时更新，引起消费者投诉；</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">09</span>
+            <div class="spec-name">品牌介绍</div>
+          </div>
+          <div class="spec-text">
+            <p>可添加店铺的品牌介绍，以及相关品牌营销链接，强化品牌形象，打造品牌调性，增加信任感。</p>
+            <p>① 图片尺寸：宽度640px~1125px，高度210px~1440px；</p>
+            <p>② 图片格式：jpg、png；</p>
+            <p>③ 图片大小：≤300k。</p>
+          </div>
+        </div>
+
+        <div class="spec-item" style="border-bottom:none;">
+          <div class="spec-head">
+            <span class="badge">10</span>
+            <div class="spec-name">尾部模块</div>
+          </div>
+          <div class="spec-text">
+            <p>① 店铺详情包含：店铺背景、官方信息、店内分类、店铺服务、联系方式等；</p>
+            <p>② 「店铺详情」各部分可自定义修改，响应不同的展示；</p>
+            <p>③ 「店内分类」各部分可自定义修改，对应店铺后台分类；</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PC 端 -->
+  <section class="panel" id="panel-pc">
+    <div class="content">
+      <div class="mock-wrap">
+        <div class="mock-title">PC端店铺页页面结构示意</div>
+        <div class="pc-mock">
+          <div class="pc-topbar">01. 店招模块</div>
+          <div class="pc-navline">
+            <div>首页</div>
+            <div>02. 导航模块</div>
+            <div>店铺故事</div>
+          </div>
+          <div class="pc-hero">03. 轮播模块（Banner）</div>
+          <div class="pc-strip">04. 营销信息模块（如：优惠券）</div>
+          <div class="pc-body">
+            <div class="pc-size">990PX</div>
+            <div class="pc-block">05. 快捷营销模块</div>
+            <div class="pc-block">06. 主推/热销商品</div>
+            <div class="pc-grid2">
+              <div class="pc-block">主推/热销商品</div>
+              <div class="pc-block">主推/热销商品</div>
+            </div>
+            <div class="pc-block">07. 分类楼层</div>
+            <div class="pc-grid2">
+              <div class="pc-block">自定义商品</div>
+              <div class="pc-block">自定义商品</div>
+            </div>
+            <div class="pc-grid2">
+              <div class="pc-block">自定义商品</div>
+              <div class="pc-block">自定义商品</div>
+            </div>
+            <div class="pc-block">08. 品牌介绍</div>
+          </div>
+          <div class="pc-footer">09. 底部区（带导航/客服/帮助等）</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="spec-title">PC端店铺页装修框架和规范建议</div>
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">01</span>
+            <div class="spec-name">店招模块</div>
+          </div>
+          <div class="spec-text">
+            <p>店招模块表达店铺品牌与商品定位logo+slogan，实现店铺特色和品牌形象；</p>
+            <p>① 模块宽度：建议宽度1920px，有效内容宽度建议≥990px；</p>
+            <p>② 模块高度：建议高度≥110px；</p>
+            <p>③ 展示内容：建议展示店铺logo、店铺名称、品牌标语、促销信息等，内容不要太多。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">02</span>
+            <div class="spec-name">导航模块</div>
+          </div>
+          <div class="spec-text">
+            <p>导航模块需承载店铺的分类、专题、活动的路径，方便用户快速找到产品；同时也可提升店铺的整体感。</p>
+            <p>① 模块宽度：建议宽度1920px；</p>
+            <p>② 模块高度：建议高度40px；</p>
+            <p>③ 分类数量：除了首页和店铺分类外建议不超过7个分类，并建议添加店铺故事等个性分类。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">03</span>
+            <div class="spec-name">轮播模块（Banner）</div>
+          </div>
+          <div class="spec-text">
+            <p>第一屏的Banner设计非常重要，能大程度上影响了用户是否决定停留，有效的信息传达可以增加浏览量和转化率；</p>
+            <p>① 模块宽度：建议宽度1920px，其中核心区域宽度990px；</p>
+            <p>② 模块高度：建议高度不小于800px为宜；</p>
+            <p>③ 图片格式：JPG/GIF/PNG；</p>
+            <p>④ 展示内容：建议展示店铺海报，主推产品、促销产品等；</p>
+            <p>⑤ 展示数量：建议3-5张。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">04</span>
+            <div class="spec-name">营销信息模块（可使用图片区）</div>
+          </div>
+          <div class="spec-text">
+            <p>营销模块主要包含：优惠券模块、店铺促销信息、预售、营销视频等。</p>
+            <p>① 模块宽度：1920px，主推内容区域宽度建议≥990px。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">05</span>
+            <div class="spec-name">快捷营销模块（可使用图片区）</div>
+          </div>
+          <div class="spec-text">
+            <p>如果店铺商品数量比较多，用户对商品分类和搜索的需求比较高，除了店铺头部的导航，还可以在店铺中间展示分类。</p>
+            <p>① 可通过图文方式展示分类直通。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">06</span>
+            <div class="spec-name">主推/热销商品区域</div>
+          </div>
+          <div class="spec-text">
+            <p>此区域主要在商品类目清晰的前提下，展示店铺主推的产品，产品数量不宜过多，建议不超过8款产品。</p>
+            <p>① 主推区域产品图片尺寸清晰，文字简洁，突出核心卖点；</p>
+            <p>② 建议布局简洁，避免文字堆叠（比如第一个模块左图右文，第二个模块右图左文），内容要适量加载，便于用户浏览。</p>
+            <p>注：为了避免商品价格与后台价格不一致引起投诉，建议使用系统后台价格展示商品sku。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">07</span>
+            <div class="spec-name">分类楼层</div>
+          </div>
+          <div class="spec-text">
+            <p>根据产品分类，进行楼层罗列。</p>
+            <p>① 实现产品分类信息，产品列表建议一排不超过4个产品；</p>
+            <p>② 可调用系统楼层，也可以自定义设计；</p>
+            <p>注：建议自定义设计时价格调用系统价格，和后台价格保持一致，避免后台价格调整后前台价格不及时更新，引起消费者投诉；</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">08</span>
+            <div class="spec-name">品牌介绍</div>
+          </div>
+          <div class="spec-text">
+            <p>可添加店铺的品牌介绍，以及相关品牌营销链接，强化品牌形象，打造品牌调性，增加信任感。</p>
+            <p>① 模块宽度：1920px，主推内容区域宽度建议≥990px。</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-head">
+            <span class="badge">09</span>
+            <div class="spec-name">底部区</div>
+          </div>
+          <div class="spec-text">
+            <p>底部模块是店铺的“收口”与“承接”区，加强品牌认知，形成统一的闭环。不建议在此区域放置过多内容。</p>
+            <p>① 模块宽度：背景满屏宽度建议1920px，核心内容宽度建议≥990px；</p>
+            <p>② 底部模块可包含以下模块：物流信息、营销模块（优惠券/促销活动/收券）、店铺公告等。</p>
+          </div>
+        </div>
+
+        <div class="spec-item" style="border-bottom:none;">
+          <div class="spec-head">
+            <span class="badge">10</span>
+            <div class="spec-name">新增模块</div>
+          </div>
+          <div class="spec-text">
+            <p>新增模块可展现更多商品分类、营销活动信息，旨在引导用户停留的同时实现产品推荐。</p>
+            <p>① 模块宽度：≤120px；</p>
+            <p>② 可添加返回顶部按钮。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
+ 
