@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>页面设计框架 - 导航页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      font-size: 14px;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .link-item {
+      display: block;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .link-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+    .link-item:nth-child(2) {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    .link-item:nth-child(2):hover {
+      box-shadow: 0 10px 20px rgba(245, 87, 108, 0.4);
+    }
+    .link-item:nth-child(3) {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    .link-item:nth-child(3):hover {
+      box-shadow: 0 10px 20px rgba(79, 172, 254, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>页面设计框架</h1>
+    <p class="subtitle">选择要查看的页面框架</p>
+    <div class="links">
+      <a href="shop-page-framework.html" class="link-item">店铺页装修框架</a>
+      <a href="activity-page-framework.html" class="link-item">活动页装修框架</a>
+      <a href="detail-page-framework.html" class="link-item">详情页设计框架</a>
+    </div>
+  </div>
+</body>
+</html>
+
