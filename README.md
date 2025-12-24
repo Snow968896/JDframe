@@ -10,9 +10,9 @@
 
 启用 GitHub Pages 后，可以通过以下三个独立链接访问：
 
-1. **店铺页**：`https://[你的用户名].github.io/[仓库名]/shop-page-framework.html`
-2. **活动页**：`https://[你的用户名].github.io/[仓库名]/activity-page-framework.html`
-3. **详情页**：`https://[你的用户名].github.io/[仓库名]/detail-page-framework.html`
+1. **店铺页**：`https://Snow968896.github.io/JDframe/shop-page-framework.html`
+2. **活动页**：`https://Snow968896.github.io/JDframe/activity-page-framework.html`
+3. **详情页**：`https://Snow968896.github.io/JDframe/detail-page-framework.html`
 
 详细的上传和配置步骤请查看 [上传指南.md](./上传指南.md)
 
